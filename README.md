@@ -26,5 +26,5 @@ python cpu/summarize_data.py
 
 Get a list of nodes with GPUs:
 ```bash
-sinfo -p sched_system_all -N -o %N,%G |grep gpu |awk -F , '{print $1}' > gpu/hostname.gpu
+sinfo -p sched_system_all -N -o %N,%G |grep gpu |awk -F , '{print $1}' > hostname.gpu
 ```
