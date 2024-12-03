@@ -61,15 +61,16 @@ def process_bad_row(row):
     return new_row
 
 
-def clean_table(df):
+def clean_and_split(df):
     """
     Performs cleaning operations on the node table
     """
-    # Filter out nodes with GPUs:
-    df = df[df["GRES"] == "(null)"]
     # Filter out sched_system_all:
     df = df[df["PARTITION"] != "sched_system_all"]
-    return df
+    # Split into CPU and GPU:
+    cpu_df = df[df["GRES"] == "(null)"]
+    gpu_df = df[df["GRES"] != "(null)"]
+    return cpu_df, gpu_df
 
 
 def compress_nodelist(nodelist):
@@ -99,9 +100,33 @@ def compress_nodelist(nodelist):
     return ';'.join(result)
 
 
+def summarize(nodes_df):
+    """
+    
+    """
+    # Group table:
+    grouped_df = nodes_df.groupby(["PARTITION", "OS", "CPUS", "MEMORY"]).agg({
+        "NODELIST": lambda x: ";".join(x),
+        "OTHER": "count"
+    }).rename(columns={"OTHER": "COUNT"}).reset_index()
+    # Compress nodelist:
+    grouped_df["NODELIST"] = grouped_df["NODELIST"].apply(compress_nodelist)
+    # Reorder columns:
+    cols = ["PARTITION", "COUNT", "CPUS", "MEMORY", "OS", "NODELIST"]
+    return grouped_df[cols]
+
+
+def get_gpu_info(gpu_df):
+    """
+    Joins a GPU node dataframe with GPU information
+    """
+    return
+
+
 def main():
+    # Read data:
     nodes_filename = "all_nodes.csv"
-    nodes_path = os.path.join(os.path.dirname(WORKDIR), nodes_filename)
+    nodes_path = os.path.join(WORKDIR, nodes_filename)
     with open(nodes_path, "r") as f:
         reader = csv.reader(f)
         headers = next(reader)
@@ -127,20 +152,17 @@ def main():
         nodes_df = pd.DataFrame(cleaned_rows, columns=headers)
     
     # Clean dataframe:
-    nodes_df = clean_table(nodes_df)
-    # Group table:
-    grouped_df = nodes_df.groupby(["PARTITION", "OS", "CPUS", "MEMORY"]).agg({
-        "NODELIST": lambda x: ";".join(x),
-        "OTHER": "count"
-    }).rename(columns={"OTHER": "COUNT"}).reset_index()
-    # Compress nodelist:
-    grouped_df["NODELIST"] = grouped_df["NODELIST"].apply(compress_nodelist)
-    # Reorder columns:
-    cols = ["PARTITION", "COUNT", "CPUS", "MEMORY", "OS", "NODELIST"]
-    grouped_df = grouped_df[cols]
-    # Save grouped dataframe as CSV:
-    grouped_df.to_csv(os.path.join(WORKDIR, "cpu_node_summary.csv"),
-                      index=False)
+    cpu_df, gpu_df = clean_and_split(nodes_df)
+    # Summarize information:
+    cpu_df = summarize(cpu_df)
+    gpu_df = summarize(gpu_df)
+
+    # Join GPU node df with GPU info:
+    gpu_df = get_gpu_info(gpu_df)
+
+    # Save grouped dataframes as CSV:
+    cpu_df.to_csv(os.path.join(WORKDIR, "cpu_node_summary.csv"), index=False)
+    gpu_df.to_csv(os.path.join(WORKDIR, "gpu_node_summary.csv"), index=False)
 
     return
 
