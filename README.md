@@ -45,7 +45,7 @@ sed 's/:/,/; s/, */,/g' "gpu_info.txt" > "gpu_info.csv"
 
 ## Step 3: Summarize node information for CPU and GPU nodes
 
-This creates `cpu_node_summary.csv` within the `cpu` directory.
+This creates `cpu_node_summary.csv` and `gpu_node_summary.csv`.
 ```bash
 python summarize_data.py
 ```
