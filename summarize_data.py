@@ -100,12 +100,12 @@ def compress_nodelist(nodelist):
     return ';'.join(result)
 
 
-def summarize(nodes_df):
+def summarize_cpu(cpu_df):
     """
     
     """
     # Group table:
-    grouped_df = nodes_df.groupby(["PARTITION", "OS", "CPUS", "MEMORY"]).agg({
+    grouped_df = cpu_df.groupby(["PARTITION", "OS", "CPUS", "MEMORY"]).agg({
         "NODELIST": lambda x: ";".join(x),
         "OTHER": "count"
     }).rename(columns={"OTHER": "COUNT"}).reset_index()
@@ -116,11 +116,44 @@ def summarize(nodes_df):
     return grouped_df[cols]
 
 
-def get_gpu_info(gpu_df):
+def join_gpu_info(gpu_df):
     """
     Joins a GPU node dataframe with GPU information
     """
-    return
+    # Pull GPU info data:
+    cols = ["NODELIST", "GPU_TYPE", "GPU_MEMORY"]
+    gpu_info_df = pd.read_csv(os.path.join(WORKDIR, "gpu_info.csv"),
+                              header=None, names=cols)
+    # Reformat:
+    gpu_info_df = gpu_info_df.groupby(["NODELIST", "GPU_TYPE", "GPU_MEMORY"])\
+        .agg(GPU_COUNT=pd.NamedAgg(column="NODELIST", aggfunc="count"))\
+        .reset_index()
+    # Join with GPU node info:
+    joined_df = pd.merge(gpu_df, gpu_info_df, on="NODELIST", how="outer")
+    return joined_df
+
+
+def summarize_gpu(gpu_df):
+    """
+    
+    """
+    # Join GPU node df with GPU info:
+    gpu_df = join_gpu_info(gpu_df)
+
+    # Group table:
+    grouped_df = gpu_df.groupby(["PARTITION", "CPUS", "MEMORY", "OS",
+                                 "GPU_COUNT", "GPU_TYPE", "GPU_MEMORY"]).agg({
+        "NODELIST": lambda x: ";".join(x),
+        "OTHER": "count"
+    }).rename(columns={"OTHER": "COUNT"}).reset_index()
+    # Compress nodelist:
+    grouped_df["NODELIST"] = grouped_df["NODELIST"].apply(compress_nodelist)
+    # Change GPU count to int:
+    grouped_df["GPU_COUNT"] = grouped_df["GPU_COUNT"].astype(int)
+    # Reorder columns:
+    cols = ["PARTITION", "COUNT", "CPUS", "MEMORY", "GPU_COUNT", "GPU_TYPE",
+            "GPU_MEMORY", "OS", "NODELIST"]
+    return grouped_df[cols]
 
 
 def main():
@@ -153,12 +186,10 @@ def main():
     
     # Clean dataframe:
     cpu_df, gpu_df = clean_and_split(nodes_df)
+    return gpu_df ##
     # Summarize information:
-    cpu_df = summarize(cpu_df)
-    gpu_df = summarize(gpu_df)
-
-    # Join GPU node df with GPU info:
-    gpu_df = get_gpu_info(gpu_df)
+    cpu_df = summarize_cpu(cpu_df)
+    gpu_df = summarize_gpu(gpu_df)
 
     # Save grouped dataframes as CSV:
     cpu_df.to_csv(os.path.join(WORKDIR, "cpu_node_summary.csv"), index=False)
