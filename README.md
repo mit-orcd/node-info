@@ -5,6 +5,7 @@ Code for fetching node information
 - GPU info cannot be gathered when a node is in drain state. Next step is to
 create a file that lists the nodes that were not successfully queried so they
 can be queried at another time.
+- To do: Exclude nodes that are permanently down (drained?)
 
 ## Step 1: Install requirements
 
