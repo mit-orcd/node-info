@@ -1,6 +1,11 @@
 # node-info
 Code for fetching node information
 
+**NOTES**
+- GPU info cannot be gathered when a node is in drain state. Next step is to
+create a file that lists the nodes that were not successfully queried so they
+can be queried at another time.
+
 ## Step 1: Install requirements
 
 ```bash
@@ -31,7 +36,7 @@ export PDSH_MODULE_DIR=$HOME/software/lib/pdsh/lib/pdsh
 # All nodes:
 sinfo -o %P,%N,%c,%m,%G,%f > all_nodes.csv
 # List of nodes with GPUs:
-sinfo -p sched_system_all -N -o %N,%G |grep gpu |awk -F , '{print $1}' > hostname.gpu
+sinfo -p sched_system_all -N -o %N,%G | grep gpu | awk -F , '{print $1}' > hostname.gpu
 # GPU specs for GPU nodes:
 pdsh -w ^hostname.gpu nvidia-smi --query-gpu=name,memory.total --format=csv,noheader > gpu_info.txt
 # Convert gpu_info.txt to gpu_info.csv:

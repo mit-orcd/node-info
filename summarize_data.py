@@ -1,14 +1,13 @@
 """
-This script takes information from all_nodes.csv and creates a summarized chart
-(as a CSV) showing node information for CPU-only nodes. The resulting file is
-saved to the `cpu` directory.
+This script takes information from all_nodes.csv and gpu_info.csv and creates a
+summarized chart (as a CSV) showing node information for CPU-only nodes and GPU-
+only nodes.
 
 NOTES:
 - Does not include partition: sched_system_all
-TO FIX:
-- bad rows still have more values and are formatted slightly differently even
-  after fixing the multi-node issue. Need to put the nodes in these rows into
-  a separate list
+- Some rows returned by slurm (in the all_nodes.csv file) contain multiple nodes
+  and do not contain values that are informative. For now, these rows are
+  dropped, but this may result in missing node information in the final result.
 """
 
 import pandas as pd
@@ -102,7 +101,7 @@ def compress_nodelist(nodelist):
 
 def summarize_cpu(cpu_df):
     """
-    
+    Group the CPU dataframe.
     """
     # Group table:
     grouped_df = cpu_df.groupby(["PARTITION", "OS", "CPUS", "MEMORY"]).agg({
@@ -135,7 +134,7 @@ def join_gpu_info(gpu_df):
 
 def summarize_gpu(gpu_df):
     """
-    
+    Add GPU information to GPU data frame and group the rows.
     """
     # Join GPU node df with GPU info:
     gpu_df = join_gpu_info(gpu_df)
@@ -186,7 +185,6 @@ def main():
     
     # Clean dataframe:
     cpu_df, gpu_df = clean_and_split(nodes_df)
-    return gpu_df ##
     # Summarize information:
     cpu_df = summarize_cpu(cpu_df)
     gpu_df = summarize_gpu(gpu_df)
