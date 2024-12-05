@@ -60,18 +60,6 @@ def process_bad_row(row):
     return new_row
 
 
-def clean_and_split(df):
-    """
-    Performs cleaning operations on the node table
-    """
-    # Filter out sched_system_all:
-    df = df[df["PARTITION"] != "sched_system_all"]
-    # Split into CPU and GPU:
-    cpu_df = df[df["GRES"] == "(null)"]
-    gpu_df = df[df["GRES"] != "(null)"]
-    return cpu_df, gpu_df
-
-
 def compress_nodelist(nodelist):
     """
     Change the format of the NODELIST column.
@@ -97,6 +85,19 @@ def compress_nodelist(nodelist):
         i += 1
 
     return ';'.join(result)
+
+
+def clean_and_split(df):
+    """
+    Performs cleaning operations on the node table
+    """
+    # Apply filters:
+    df = df[df["PARTITION"] != "sched_system_all"]
+    # df = df[df["STATE"] != "drained*"] # Achieved in shell script portion
+    # Split into CPU and GPU:
+    cpu_df = df[df["GRES"] == "(null)"]
+    gpu_df = df[df["GRES"] != "(null)"]
+    return cpu_df, gpu_df
 
 
 def summarize_cpu(cpu_df):
