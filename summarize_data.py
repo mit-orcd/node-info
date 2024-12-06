@@ -38,6 +38,8 @@ def process_bad_row(row):
          '(null)',
          '(null)',
          '(null)']
+
+    NOTE: Unused function for now
     """
     for i, val in enumerate(row):
         if "node[" in val:
@@ -187,8 +189,10 @@ def main():
     # Clean dataframe:
     cpu_df, gpu_df = clean_and_split(nodes_df)
     # Summarize information:
-    cpu_df = summarize_cpu(cpu_df)
-    gpu_df = summarize_gpu(gpu_df)
+    cpu_df = summarize_cpu(cpu_df).sort_values(by='PARTITION',
+                                               key=lambda col: col.str.lower())
+    gpu_df = summarize_gpu(gpu_df).sort_values(by='PARTITION',
+                                               key=lambda col: col.str.lower())
 
     # Save grouped dataframes as CSV:
     cpu_df.to_csv(os.path.join(WORKDIR, "cpu_node_summary.csv"), index=False)
