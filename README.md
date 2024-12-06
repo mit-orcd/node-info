@@ -2,9 +2,9 @@
 Code for fetching node information
 
 **NOTES**
-- GPU info cannot be gathered when a node is in drain state. Next step is to
-create a file that lists the nodes that were not successfully queried so they
-can be queried at another time.
+- Does not include nodes that are in a "drained*" state
+- PDSH command does not always successfully get data from 100% of GPU nodes
+  (either due to issues with ssh or nvidia-smi)
 
 ## Step 1: Install requirements
 
