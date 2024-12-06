@@ -109,12 +109,12 @@ def summarize_cpu(cpu_df):
     # Group table:
     grouped_df = cpu_df.groupby(["PARTITION", "OS", "CPUS", "MEMORY"]).agg({
         "NODELIST": lambda x: ";".join(x),
-        "OTHER": "count"
-    }).rename(columns={"OTHER": "COUNT"}).reset_index()
+        "AVAIL_FEATURES": "count"
+    }).rename(columns={"AVAIL_FEATURES": "NODE_COUNT"}).reset_index()
     # Compress nodelist:
     grouped_df["NODELIST"] = grouped_df["NODELIST"].apply(compress_nodelist)
     # Reorder columns:
-    cols = ["PARTITION", "COUNT", "CPUS", "MEMORY", "OS", "NODELIST"]
+    cols = ["PARTITION", "NODE_COUNT", "CPUS", "MEMORY", "OS", "NODELIST"]
     return grouped_df[cols]
 
 
@@ -146,14 +146,14 @@ def summarize_gpu(gpu_df):
     grouped_df = gpu_df.groupby(["PARTITION", "CPUS", "MEMORY", "OS",
                                  "GPU_COUNT", "GPU_TYPE", "GPU_MEMORY"]).agg({
         "NODELIST": lambda x: ";".join(x),
-        "OTHER": "count"
-    }).rename(columns={"OTHER": "COUNT"}).reset_index()
+        "AVAIL_FEATURES": "count"
+    }).rename(columns={"AVAIL_FEATURES": "NODE_COUNT"}).reset_index()
     # Compress nodelist:
     grouped_df["NODELIST"] = grouped_df["NODELIST"].apply(compress_nodelist)
     # Change GPU count to int:
     grouped_df["GPU_COUNT"] = grouped_df["GPU_COUNT"].astype(int)
     # Reorder columns:
-    cols = ["PARTITION", "COUNT", "CPUS", "MEMORY", "GPU_COUNT", "GPU_TYPE",
+    cols = ["PARTITION", "NODE_COUNT", "CPUS", "MEMORY", "GPU_COUNT", "GPU_TYPE",
             "GPU_MEMORY", "OS", "NODELIST"]
     return grouped_df[cols]
 

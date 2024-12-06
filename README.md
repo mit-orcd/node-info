@@ -34,7 +34,7 @@ export PDSH_MODULE_DIR=$HOME/software/lib/pdsh/lib/pdsh
 
 ```bash
 # All nodes (excluding nodes with "drained*" state):
-sinfo -o %P,%N,%c,%m,%G,%f,%T | grep -v "drained\*" > all_nodes.csv
+sinfo -o %P,%N,%c,%m,%G,%T,%f | grep -v "drained\*" > all_nodes.csv
 # List of nodes with GPUs:
 cat all_nodes.csv | grep gpu | awk -F , '{print $2}' | sort | uniq > hostname.gpu
 # GPU specs for GPU nodes (may have to ^C this operation but it will still get data):
