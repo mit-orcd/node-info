@@ -11,7 +11,7 @@ Code for fetching node information
 ```bash
 # Create a conda environment:
 module load miniforge
-conda create -n node_info --file requirements.txt
+conda env create -f environment.yml
 conda activate node_info
 
 # Download and install pdsh from source:
