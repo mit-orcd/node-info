@@ -153,8 +153,8 @@ def summarize_gpu(gpu_df):
     # Change GPU count to int:
     grouped_df["GPU_COUNT"] = grouped_df["GPU_COUNT"].astype(int)
     # Reorder columns:
-    cols = ["PARTITION", "NODE_COUNT", "CPUS", "MEMORY", "GPU_COUNT", "GPU_TYPE",
-            "GPU_MEMORY", "OS", "NODELIST"]
+    cols = ["PARTITION", "NODE_COUNT", "CPUS", "MEMORY", "GPU_COUNT",
+            "GPU_TYPE", "GPU_MEMORY", "OS", "NODELIST"]
     return grouped_df[cols]
 
 
