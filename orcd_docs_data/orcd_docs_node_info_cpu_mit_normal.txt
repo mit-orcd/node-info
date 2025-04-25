@@ -1,0 +1,5 @@
+| NODE_COUNT | OS     | CORES_PER_SOCKET | SOCKETS | MEMORY  | MODEL_NAME                       | NODELIST                    |
+| ---------- | ------ | ---------------- | ------- | ------- | -------------------------------- | --------------------------- |
+| 2          | rocky8 | 32               | 2       | 386000  | AMD EPYC 9384X 32-Core Processor | node2704-2705               |
+| 19         | rocky8 | 48               | 2       | 386000  | AMD EPYC 9474F 48-Core Processor | node1600-1616;node1618-1619 |
+| 6          | rocky8 | 96               | 2       | 1547000 | AMD EPYC 9654 96-Core Processor  | node1620-1625               |

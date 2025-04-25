@@ -6,6 +6,13 @@ Code for fetching node information
 - PDSH command does not always successfully get data from 100% of GPU nodes
   (either due to issues with ssh or nvidia-smi)
 
+<!-- 
+TODO:
+- Reorganize everything so that the conflunce table information is in one
+  dir and the orcd-docs info is in another dir
+- Make GPU and CPU memory syntax consistent (add MiB)
+-->
+
 ## Step 1: Install requirements
 
 ```bash
@@ -32,6 +39,8 @@ export PDSH_MODULE_DIR=$HOME/software/lib/pdsh/lib/pdsh
 
 ## Step 2: Pull node information via Slurm and PDSH
 
+For Confluence table and orcd-docs table:
+
 ```bash
 # All nodes (excluding nodes with "drained*" state):
 sinfo -o %P,%N,%c,%m,%G,%T,%f | grep -v "drained\*" > all_nodes.csv
@@ -46,9 +55,40 @@ grep -Fxv -f <(awk -F, '{print $1}' gpu_info.csv) hostname.gpu > unchecked_gpu_n
 # You may need to manually check these nodes
 ```
 
-## Step 3: Summarize node information for CPU and GPU nodes
+For orcd-docs table only:
+
+```bash
+# Put all node names into a file:
+cat all_nodes.csv | awk -F , '{print $2}' | grep -v "NODELIST" | sort | uniq > orcd_docs_data/hostname.all
+# Get CPU specs for all nodes (used in ORCD docs table, not Confluence):
+pdsh -w ^orcd_docs_data/hostname.all lscpu | grep -E 'Model name|Core\(s\) per socket|Socket\(s\)' > orcd_docs_data/cpu_info.txt
+# Convert cpu_info.txt to cpu_info.csv:
+sed 's/:/,/g; s/, */,/g; s/ *,/,/g; s/(//g; s/)//g' "orcd_docs_data/cpu_info.txt" > "orcd_docs_data/cpu_info.csv"
+```
+
+## Step 3: Summarize node information for CPU and GPU nodes (Confluence table and orcd-docs)
 
 ```bash
 python summarize_data.py
 ```
-This creates `cpu_node_summary.csv` and `gpu_node_summary.csv`.
+This creates `cpu_node_summary.csv` and `gpu_node_summary.csv`, which are used
+for ORCD's internal node inventory Wiki, found [here](https://wikis.mit.edu/confluence/pages/viewpage.action?pageId=290272243).
+
+## Step 4: Create tables for orcd-docs
+
+Generate tables:
+
+```bash
+python orcd_docs_data/create_table_for_docs.py
+```
+
+Convert CSVs to .md table format:
+
+```bash
+DIR=orcd_docs_data
+
+for file in $DIR/orcd_docs_node_info*.csv; do
+    base_filename=$DIR/$(basename "$file" .csv)
+    csv2md $base_filename.csv > $base_filename.txt
+done
+```
