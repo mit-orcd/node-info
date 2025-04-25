@@ -11,6 +11,8 @@ TODO:
 - Reorganize everything so that the conflunce table information is in one
   dir and the orcd-docs info is in another dir
 - Make GPU and CPU memory syntax consistent (add MiB)
+- Put things into shell scripts
+- Remove intermediate files from github repo (also programmatically delete?)
 -->
 
 ## Step 1: Install requirements
