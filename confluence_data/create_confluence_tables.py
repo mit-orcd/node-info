@@ -13,8 +13,11 @@ NOTES:
 import pandas as pd
 import csv
 import os
+import sys
 
 WORKDIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.abspath(os.path.join(WORKDIR, '..')))
+import utils
 
 def process_bad_row(row):
     """
@@ -62,40 +65,14 @@ def process_bad_row(row):
     return new_row
 
 
-def compress_nodelist(nodelist):
-    """
-    Change the format of the NODELIST column.
-
-    E.g.:
-        "node001;node002;node003;node006" --> "node001-003;node006"
-    """
-    nodes = nodelist.split(';')
-    nodes.sort()
-    result = []
-    i = 0
-
-    while i < len(nodes):
-        start = nodes[i]
-        while i + 1 < len(nodes) and \
-            int(nodes[i + 1][4:]) == int(nodes[i][4:]) + 1:
-            i += 1
-        end = nodes[i]
-        if start != end:
-            result.append(f"{start[:4]}{start[4:]}-{end[4:]}")
-        else:
-            result.append(start)
-        i += 1
-
-    return ';'.join(result)
-
-
 def clean_and_split(df):
     """
     Performs cleaning operations on the node table
     """
     # Apply filters:
     df = df[df["PARTITION"] != "sched_system_all"]
-    # df = df[df["STATE"] != "drained*"] # Achieved in shell script portion
+    df = df[df["STATE"] != "drained*"]
+    df = df[df["STATE"] != "down*"]
     # Split into CPU and GPU:
     cpu_df = df[df["GRES"] == "(null)"]
     gpu_df = df[df["GRES"] != "(null)"]
@@ -112,7 +89,7 @@ def summarize_cpu(cpu_df):
         "AVAIL_FEATURES": "count"
     }).rename(columns={"AVAIL_FEATURES": "NODE_COUNT"}).reset_index()
     # Compress nodelist:
-    grouped_df["NODELIST"] = grouped_df["NODELIST"].apply(compress_nodelist)
+    grouped_df["NODELIST"] = grouped_df["NODELIST"].apply(utils.compress_nodelist)
     # Reorder columns:
     cols = ["PARTITION", "NODE_COUNT", "CPUS", "MEMORY", "OS", "NODELIST"]
     return grouped_df[cols]
@@ -124,7 +101,7 @@ def join_gpu_info(gpu_df):
     """
     # Pull GPU info data:
     cols = ["NODELIST", "GPU_TYPE", "GPU_MEMORY"]
-    gpu_info_df = pd.read_csv(os.path.join(WORKDIR, "gpu_info.csv"),
+    gpu_info_df = pd.read_csv(os.path.join(WORKDIR, "tmp/gpu_info.csv"),
                               header=None, names=cols)
     # Reformat:
     gpu_info_df = gpu_info_df.groupby(["NODELIST", "GPU_TYPE", "GPU_MEMORY"])\
@@ -149,7 +126,7 @@ def summarize_gpu(gpu_df):
         "AVAIL_FEATURES": "count"
     }).rename(columns={"AVAIL_FEATURES": "NODE_COUNT"}).reset_index()
     # Compress nodelist:
-    grouped_df["NODELIST"] = grouped_df["NODELIST"].apply(compress_nodelist)
+    grouped_df["NODELIST"] = grouped_df["NODELIST"].apply(utils.compress_nodelist)
     # Change GPU count to int:
     grouped_df["GPU_COUNT"] = grouped_df["GPU_COUNT"].astype(int)
     # Reorder columns:
@@ -160,7 +137,7 @@ def summarize_gpu(gpu_df):
 
 def main():
     # Read data:
-    nodes_filename = "all_nodes.csv"
+    nodes_filename = "data/all_nodes.csv"
     nodes_path = os.path.join(WORKDIR, nodes_filename)
     with open(nodes_path, "r") as f:
         reader = csv.reader(f)
@@ -195,8 +172,8 @@ def main():
                                                key=lambda col: col.str.lower())
 
     # Save grouped dataframes as CSV:
-    cpu_df.to_csv(os.path.join(WORKDIR, "cpu_node_summary.csv"), index=False)
-    gpu_df.to_csv(os.path.join(WORKDIR, "gpu_node_summary.csv"), index=False)
+    cpu_df.to_csv(os.path.join(WORKDIR, "data/cpu_node_summary.csv"), index=False)
+    gpu_df.to_csv(os.path.join(WORKDIR, "data/gpu_node_summary.csv"), index=False)
 
     return
 
