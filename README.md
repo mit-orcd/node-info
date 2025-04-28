@@ -9,7 +9,6 @@ Code for fetching node information
 <!-- 
 TODO:
 - Make GPU and CPU memory syntax consistent (add MiB)
-- Remove intermediate files from github repo (also programmatically delete?)
 -->
 
 ## Step 1: Install requirements
