@@ -73,6 +73,12 @@ def clean_and_split(df):
     df = df[df["PARTITION"] != "sched_system_all"]
     df = df[df["STATE"] != "drained*"]
     df = df[df["STATE"] != "down*"]
+    # Convert memory to GB:                                                                                                                                                                                                                                                                                                                      
+    df["MEMORY"] = (df["MEMORY"].astype(int) // 1024).astype(str) + "GB"
+    # Remove certain misc features:
+    df["MISC_FEATURES"] = df["MISC_FEATURES"].replace(
+        {"r9a-c03": None}
+    )
     # Split into CPU and GPU:
     cpu_df = df[df["GRES"] == "(null)"]
     gpu_df = df[df["GRES"] != "(null)"]
@@ -84,14 +90,16 @@ def summarize_cpu(cpu_df):
     Group the CPU dataframe.
     """
     # Group table:
-    grouped_df = cpu_df.groupby(["PARTITION", "OS", "CPUS", "MEMORY"]).agg({
+    grouped_df = cpu_df.groupby(["PARTITION", "OS", "CPUS", "MEMORY", "MISC_FEATURES"], dropna=False).agg({
         "NODELIST": lambda x: ";".join(x),
         "AVAIL_FEATURES": "count"
     }).rename(columns={"AVAIL_FEATURES": "NODE_COUNT"}).reset_index()
     # Compress nodelist:
-    grouped_df["NODELIST"] = grouped_df["NODELIST"].apply(utils.compress_nodelist)
+    grouped_df["NODELIST"] = \
+        grouped_df["NODELIST"].apply(utils.compress_nodelist)
     # Reorder columns:
-    cols = ["PARTITION", "NODE_COUNT", "CPUS", "MEMORY", "OS", "NODELIST"]
+    cols = ["PARTITION", "NODE_COUNT", "CPUS", "MEMORY", "OS", "MISC_FEATURES",
+            "NODELIST"]
     return grouped_df[cols]
 
 
@@ -108,7 +116,7 @@ def join_gpu_info(gpu_df):
         .agg(GPU_COUNT=pd.NamedAgg(column="NODELIST", aggfunc="count"))\
         .reset_index()
     # Join with GPU node info:
-    joined_df = pd.merge(gpu_df, gpu_info_df, on="NODELIST", how="outer")
+    joined_df = pd.merge(gpu_df, gpu_info_df, on="NODELIST", how="inner")
     return joined_df
 
 
@@ -118,20 +126,25 @@ def summarize_gpu(gpu_df):
     """
     # Join GPU node df with GPU info:
     gpu_df = join_gpu_info(gpu_df)
+    # Convert GPU memory to GB:
+    gpu_df["GPU_MEMORY"] = (
+        gpu_df["GPU_MEMORY"].str.strip(" MiB").astype(int) // 1024
+    ).astype(str) + "GB"
 
     # Group table:
     grouped_df = gpu_df.groupby(["PARTITION", "CPUS", "MEMORY", "OS",
-                                 "GPU_COUNT", "GPU_TYPE", "GPU_MEMORY"]).agg({
+                                 "GPU_COUNT", "GPU_TYPE", "GPU_MEMORY", "MISC_FEATURES"], dropna=False).agg({
         "NODELIST": lambda x: ";".join(x),
         "AVAIL_FEATURES": "count"
     }).rename(columns={"AVAIL_FEATURES": "NODE_COUNT"}).reset_index()
     # Compress nodelist:
-    grouped_df["NODELIST"] = grouped_df["NODELIST"].apply(utils.compress_nodelist)
+    grouped_df["NODELIST"] = \
+        grouped_df["NODELIST"].apply(utils.compress_nodelist)
     # Change GPU count to int:
     grouped_df["GPU_COUNT"] = grouped_df["GPU_COUNT"].astype(int)
     # Reorder columns:
     cols = ["PARTITION", "NODE_COUNT", "CPUS", "MEMORY", "GPU_COUNT",
-            "GPU_TYPE", "GPU_MEMORY", "OS", "NODELIST"]
+            "GPU_TYPE", "GPU_MEMORY", "OS", "MISC_FEATURES", "NODELIST"]
     return grouped_df[cols]
 
 
@@ -143,7 +156,7 @@ def main():
         reader = csv.reader(f)
         headers = next(reader)
         headers.append("OS")
-        headers.append("OTHER")
+        headers.append("MISC_FEATURES")
         cleaned_rows = []
         for row in reader:
             # Check if the row contains multiple nodes:
@@ -172,8 +185,10 @@ def main():
                                                key=lambda col: col.str.lower())
 
     # Save grouped dataframes as CSV:
-    cpu_df.to_csv(os.path.join(WORKDIR, "data/cpu_node_summary.csv"), index=False)
-    gpu_df.to_csv(os.path.join(WORKDIR, "data/gpu_node_summary.csv"), index=False)
+    cpu_df.to_csv(os.path.join(WORKDIR, "data/cpu_node_summary.csv"),
+                  index=False)
+    gpu_df.to_csv(os.path.join(WORKDIR, "data/gpu_node_summary.csv"),
+                  index=False)
 
     return
 

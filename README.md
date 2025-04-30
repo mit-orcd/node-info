@@ -8,7 +8,14 @@ Code for fetching node information
 
 <!-- 
 TODO:
-- Make GPU and CPU memory syntax consistent (add MiB)
+- Make GPU and CPU memory syntax consistent (change to GB) X
+- Docs tables:
+  - Change sockets/cores to "2x32" X
+  - Remove OS X
+  - Remove sched_mit_hill X
+  - Add mit_quicktest X
+  - Change width of some columns
+  - Add special features X
 -->
 
 ## Step 1: Install requirements

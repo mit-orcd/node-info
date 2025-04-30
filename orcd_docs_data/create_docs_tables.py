@@ -1,9 +1,6 @@
 """
 This script generates the tables to be used for the public-facing ORCD
 documentation.
-
-TODO:
-- Include special features of nodes
 """
 
 import pandas as pd
@@ -11,7 +8,7 @@ import sys
 import os
 
 BASE_DIR = os.path.dirname(__file__)
-os.chdir(BASE_DIR) # Do I need this?
+os.chdir(BASE_DIR)
 sys.path.insert(0, os.path.abspath(os.path.join(BASE_DIR, '..')))
 import utils
 
@@ -34,6 +31,10 @@ def read_cpu_data():
     cpu_info_df.columns = [
         col.upper().replace(" ", "_") for col in cpu_info_df.columns
     ]
+    cpu_info_df["CORES"] = cpu_info_df["SOCKETS"].astype(str) + \
+        "x" + \
+        cpu_info_df["CORES_PER_SOCKET"].astype(str)
+    cpu_info_df.drop(columns=["SOCKETS", "CORES_PER_SOCKET"], inplace=True)
 
     return cpu_info_df
 
@@ -43,7 +44,8 @@ def clean_node_df(node_df, public_partitions):
     node_df = node_df[node_df["PARTITION"].isin(public_partitions)]
 
     node_df = node_df[node_df["PARTITION"] != "mit_data_transfer"]
-    node_df.loc[:, "NODELIST"] = node_df["NODELIST"].apply(utils.expand_nodelist)
+    node_df.loc[:, "NODELIST"] = \
+        node_df["NODELIST"].apply(utils.expand_nodelist)
     node_df = node_df.explode("NODELIST").reset_index(drop=True)
     node_df.drop(columns=["NODE_COUNT", "CPUS"], inplace=True)
     return node_df
@@ -52,7 +54,7 @@ def clean_node_df(node_df, public_partitions):
 def main():
     # Define public partitions:
     public_partitions = set(["mit_normal", "mit_normal_gpu", "mit_preemptable",
-                             "sched_mit_hill"])
+                             "mit_quicktest"])
 
     # Read CPU specs:
     cpu_info_df = read_cpu_data()
@@ -74,15 +76,15 @@ def main():
 
     # Compress the two data frames:
     cpu_node_df = cpu_node_df.groupby(
-        ["PARTITION", "MEMORY", "OS", "CORES_PER_SOCKET", "SOCKETS",
-         "MODEL_NAME"]
+        ["PARTITION", "MEMORY", "CORES",
+         "MODEL_NAME", "MISC_FEATURES"], dropna=False
     ).agg(
         NODELIST=("NODELIST", lambda x: ";".join(x)),
         NODE_COUNT=("NODELIST", "count")
     ).reset_index()
     gpu_node_df =  gpu_node_df.groupby(
-        ["PARTITION", "MEMORY", "OS", "CORES_PER_SOCKET", "SOCKETS",
-         "MODEL_NAME", "GPU_COUNT", "GPU_TYPE", "GPU_MEMORY"]
+        ["PARTITION", "MEMORY", "CORES",
+         "MODEL_NAME", "GPU_COUNT", "GPU_TYPE", "GPU_MEMORY", "MISC_FEATURES"], dropna=False
     ).agg(
         NODELIST= ("NODELIST", lambda x: ";".join(x)),
         NODE_COUNT=("NODELIST", "count")
@@ -96,13 +98,11 @@ def main():
     )
 
     # Reorder columns:
-    cpu_node_df = cpu_node_df[["PARTITION", "NODE_COUNT", "OS",
-                               "CORES_PER_SOCKET", "SOCKETS", "MEMORY",
-                               "MODEL_NAME", "NODELIST"]]
-    gpu_node_df = gpu_node_df[["PARTITION", "NODE_COUNT", "OS",
-                               "CORES_PER_SOCKET", "SOCKETS", "MEMORY",
-                               "MODEL_NAME", "GPU_COUNT", "GPU_TYPE",
-                               "GPU_MEMORY", "NODELIST"]]
+    cpu_node_df = cpu_node_df[["PARTITION", "NODE_COUNT", "CORES", "MEMORY",
+                               "MODEL_NAME", "MISC_FEATURES", "NODELIST"]]
+    gpu_node_df = gpu_node_df[["PARTITION", "NODE_COUNT",
+                               "CORES", "MEMORY", "MODEL_NAME", "GPU_COUNT",
+                               "GPU_TYPE", "GPU_MEMORY", "MISC_FEATURES", "NODELIST"]]
     
     # Export the dataframes to csv files (one per partition):
     for partition in public_partitions:
@@ -111,15 +111,17 @@ def main():
         ].copy()
         partition_node_df.drop(columns=["PARTITION"], inplace=True)
         if not partition_node_df.empty:
-            partition_node_df.to_csv(f"data/orcd_docs_node_info_gpu_{partition}.csv",
-                                     index=False)
+            partition_node_df.to_csv(
+                f"data/orcd_docs_node_info_gpu_{partition}.csv", index=False
+            )
         partition_node_df = cpu_node_df[
             cpu_node_df["PARTITION"] == partition
         ].copy()
         partition_node_df.drop(columns=["PARTITION"], inplace=True)
         if not partition_node_df.empty:
-            partition_node_df.to_csv(f"data/orcd_docs_node_info_cpu_{partition}.csv",
-                                     index=False)
+            partition_node_df.to_csv(
+                f"data/orcd_docs_node_info_cpu_{partition}.csv", index=False
+            )
 
     return
 

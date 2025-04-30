@@ -1,67 +1,69 @@
-PARTITION,NODE_COUNT,CPUS,MEMORY,GPU_COUNT,GPU_TYPE,GPU_MEMORY,OS,NODELIST
-MIT-6.S198,12,28,128000,2,Tesla P100-PCIE-12GB,12288 MiB,centos7,node737-739;node741;node743;node745-747;node749-752
-mit-6345,8,28,128000,2,Tesla P100-PCIE-12GB,12288 MiB,centos7,node743;node745-747;node749-752
-mit_normal_gpu,2,240,2063000,8,NVIDIA H200,143771 MiB,rocky8,node2433-2434
-mit_normal_gpu,1,64,1031000,4,NVIDIA H100 80GB HBM3,81559 MiB,rocky8,node2906
-mit_normal_gpu,1,64,1031000,4,NVIDIA L40S,46068 MiB,rocky8,node2804
-mit_preemptable,8,128,2063000,4,NVIDIA H100 80GB HBM3,81559 MiB,rocky8,node1702-1703;node1802-1803;node2702-2703;node2802-2803
-mit_preemptable,14,128,515000,4,NVIDIA A100-SXM4-80GB,81920 MiB,rocky8,node1917-1918;node2100-2104;node2119;node2300-2304;node2319
-mit_preemptable,2,240,2063000,8,NVIDIA H200,143771 MiB,rocky8,node2433-2434
-mit_preemptable,4,40,515000,4,NVIDIA A100 80GB PCIe,81920 MiB,rocky8,node2414-2417
-mit_preemptable,3,64,1031000,4,NVIDIA H100 80GB HBM3,81559 MiB,rocky8,node2641-2642;node2906
-mit_preemptable,3,64,1031000,4,NVIDIA L40S,46068 MiB,rocky8,node2643-2644;node2804
-ou_bcs_high,2,128,2063000,4,NVIDIA H100 80GB HBM3,81559 MiB,rocky8,node1702-1703
-ou_bcs_low,8,128,2063000,4,NVIDIA H100 80GB HBM3,81559 MiB,rocky8,node1702-1703;node1802-1803;node2702-2703;node2802-2803
-ou_bcs_normal,6,128,2063000,4,NVIDIA H100 80GB HBM3,81559 MiB,rocky8,node1802-1803;node2702-2703;node2802-2803
-ou_sloan_gpu,2,64,1031000,4,NVIDIA H100 80GB HBM3,81559 MiB,rocky8,node2641-2642
-ou_sloan_teaching,2,64,1031000,4,NVIDIA L40S,46068 MiB,rocky8,node2643-2644
-pi_abodner,1,64,1031000,4,NVIDIA H100 80GB HBM3,81559 MiB,rocky8,node2905
-pi_ashia07,2,64,1031000,4,NVIDIA L40S,46068 MiB,rocky8,node1632-1633
-pi_ccoley,1,64,1031000,4,NVIDIA H100 80GB HBM3,81559 MiB,rocky8,node2436
-pi_cdrennan_gpu,2,48,386000,3,NVIDIA L40S,46068 MiB,rocky8,node1804-1805
-pi_edboyden,2,96,1547000,1,NVIDIA L4,23034 MiB,rocky8,node2809-2810
-pi_faez,2,224,2063000,8,NVIDIA H100 80GB HBM3,81559 MiB,rocky8,node2900-2901
-pi_faez,1,64,2063000,4,NVIDIA H100 80GB HBM3,81559 MiB,rocky8,node2435
-pi_gaias,1,96,1031000,4,NVIDIA L40S,46068 MiB,rocky8,node2902
-pi_keating,2,48,386000,2,NVIDIA H100 NVL,95830 MiB,rocky8,node1708-1709
-pi_keating,1,64,1031000,4,NVIDIA A100-SXM4-80GB,81920 MiB,rocky8,node1927
-pi_linaresr,1,120,2063000,8,NVIDIA H100 80GB HBM3,81559 MiB,rocky8,node2501
-pi_mghassem,1,64,1031000,4,NVIDIA L40S,46068 MiB,rocky8,node2903
-pi_ppliang,1,120,2063000,8,NVIDIA H200,143771 MiB,rocky8,node2500
-pi_raffaele,1,64,1031000,4,NVIDIA H100 80GB HBM3,81559 MiB,rocky8,node2904
-pi_srmadden,2,64,386000,2,NVIDIA L40S,46068 MiB,rocky8,node1704-1705
-sched_17806,9,16,64000,1,Tesla K20m,4743 MiB,centos7,node146;node149;node154;node156;node158-159;node168-169;node172
-sched_any,1,16,64000,1,Tesla K20m,4743 MiB,centos7,node087
-sched_bu_rebbi,9,16,64000,1,Tesla K20m,4743 MiB,centos7,node146;node149;node154;node156;node158-159;node168-169;node172
-sched_engaging_default,9,16,64000,1,Tesla K20m,4743 MiB,centos7,node146;node149;node154;node156;node158-159;node168-169;node172
-sched_mit_binz_gpu,1,20,128000,4,NVIDIA GeForce RTX 2080 Ti,11264 MiB,centos7,node1195
-sched_mit_buehler_gpu,1,48,772000,4,Tesla V100S-PCIE-32GB,32768 MiB,centos7,node1230
-sched_mit_buehler_gpu,2,48,772000,10,Tesla V100S-PCIE-32GB,32768 MiB,centos7,node1228-1229
-sched_mit_ccoley,2,52,514000,8,NVIDIA GeForce RTX 2080 Ti,11264 MiB,centos7,node1236-1237
-sched_mit_darwin2,8,28,128000,2,Tesla P100-PCIE-12GB,12288 MiB,centos7,node737-741;node753-754;node756
-sched_mit_fraenkel_r8,1,64,1031000,4,NVIDIA A40,46068 MiB,rocky8,node2403
-sched_mit_hill,9,16,64000,1,Tesla K20m,4743 MiB,centos7,node146;node149;node154;node156;node158-159;node168-169;node172
-sched_mit_hill_cpsfr,4,40,515000,4,NVIDIA A100 80GB PCIe,81920 MiB,rocky8,node2414-2417
-sched_mit_jhewitt_r8,1,40,515000,2,NVIDIA A100 80GB PCIe,81920 MiB,rocky8,node2418
-sched_mit_kburdge_r8,4,256,515000,4,NVIDIA A100-SXM4-80GB,81920 MiB,rocky8,node2002-2005
-sched_mit_keating,1,64,1031000,4,NVIDIA A100-SXM4-80GB,81920 MiB,rocky8,node1927
-sched_mit_mki_preempt_r8,4,256,515000,4,NVIDIA A100-SXM4-80GB,81920 MiB,rocky8,node2002-2005
-sched_mit_mki_preempt_r8,1,40,515000,2,NVIDIA A100 80GB PCIe,81920 MiB,rocky8,node2418
-sched_mit_mki_preempt_r8,2,128,515000,4,NVIDIA A100-SXM4-80GB,81920 MiB,rocky8,node2000-2001
-sched_mit_mki_r8,2,128,515000,4,NVIDIA A100-SXM4-80GB,81920 MiB,rocky8,node2000-2001
-sched_mit_psfc_gpu_r8,14,128,515000,4,NVIDIA A100-SXM4-80GB,81920 MiB,rocky8,node1917-1918;node2100-2104;node2119;node2300-2304;node2319
-sched_mit_rafagb,2,48,257000,4,NVIDIA TITAN V,12288 MiB,centos7,node1034-1035
-sched_mit_rafagb,14,64,385000,4,NVIDIA GeForce RTX 2080 Ti,11264 MiB,centos7,node1115-1118;node1121-1130
-sched_mit_rafagb_amd,3,64,515000,8,NVIDIA GeForce RTX 2080 Ti,11264 MiB,centos7,node1204;node1207-1208
-sched_mit_redwine,9,16,64000,1,Tesla K20m,4743 MiB,centos7,node146;node149;node154;node156;node158-159;node168-169;node172
-sched_mit_rgmark,4,40,386000,1,Tesla K40m,11441 MiB,centos7,node309-312
-sched_mit_rutledge_gpu,3,20,128000,4,NVIDIA TITAN V,12288 MiB,centos7,node1104-1106
-sched_mit_sloan_gpu,1,28,257000,4,Tesla K80,11441 MiB,centos7,node970
-sched_mit_sloan_gpu_r8,4,40,515000,4,NVIDIA A100 80GB PCIe,81920 MiB,rocky8,node2414-2417
-sched_mit_thesmar,1,56,257000,4,Tesla K80,11441 MiB,centos7,node442
-sched_mit_trout,2,28,95000,4,Tesla P100-PCIE-12GB,12288 MiB,centos7,node1038-1039
-sched_mit_wfrank,1,40,191000,4,Tesla V100S-PCIE-32GB,32768 MiB,centos7,node1231
-sched_mit_wfrank,1,24,257000,4,Tesla K80,11441 MiB,centos7,node423
-sched_neu_cooperman,9,16,64000,1,Tesla K20m,4743 MiB,centos7,node146;node149;node154;node156;node158-159;node168-169;node172
-sched_opportunist,13,16,64000,1,Tesla K20m,4743 MiB,centos7,node085-088;node146;node149;node154;node156;node158-159;node168-169;node172
-Sched_Umass_Shenoy,9,16,64000,1,Tesla K20m,4743 MiB,centos7,node146;node149;node154;node156;node158-159;node168-169;node172
+PARTITION,NODE_COUNT,CPUS,MEMORY,GPU_COUNT,GPU_TYPE,GPU_MEMORY,OS,MISC_FEATURES,NODELIST
+MIT-6.S198,12,28,125GB,2,Tesla P100-PCIE-12GB,12GB,centos7,,node737-739;node741;node743;node745-747;node749-752
+mit-6345,8,28,125GB,2,Tesla P100-PCIE-12GB,12GB,centos7,,node743;node745-747;node749-752
+mit_normal_gpu,2,240,2014GB,8,NVIDIA H200,140GB,rocky8,,node2433-2434
+mit_normal_gpu,1,64,1006GB,4,NVIDIA H100 80GB HBM3,79GB,rocky8,,node2906
+mit_normal_gpu,1,64,1006GB,4,NVIDIA L40S,44GB,rocky8,,node2804
+mit_preemptable,8,128,2014GB,4,NVIDIA H100 80GB HBM3,79GB,rocky8,,node1702-1703;node1802-1803;node2702-2703;node2802-2803
+mit_preemptable,14,128,502GB,4,NVIDIA A100-SXM4-80GB,80GB,rocky8,,node1917-1918;node2100-2104;node2119;node2300-2304;node2319
+mit_preemptable,2,240,2014GB,8,NVIDIA H200,140GB,rocky8,,node2433-2434
+mit_preemptable,4,40,502GB,4,NVIDIA A100 80GB PCIe,80GB,rocky8,,node2414-2417
+mit_preemptable,4,64,1006GB,4,NVIDIA H100 80GB HBM3,79GB,rocky8,,node2640-2642;node2906
+mit_preemptable,3,64,1006GB,4,NVIDIA L40S,44GB,rocky8,,node2643-2644;node2804
+ou_bcs_high,2,128,2014GB,4,NVIDIA H100 80GB HBM3,79GB,rocky8,,node1702-1703
+ou_bcs_low,8,128,2014GB,4,NVIDIA H100 80GB HBM3,79GB,rocky8,,node1702-1703;node1802-1803;node2702-2703;node2802-2803
+ou_bcs_normal,6,128,2014GB,4,NVIDIA H100 80GB HBM3,79GB,rocky8,,node1802-1803;node2702-2703;node2802-2803
+ou_sloan_gpu,3,64,1006GB,4,NVIDIA H100 80GB HBM3,79GB,rocky8,,node2640-2642
+ou_sloan_teaching,2,64,1006GB,4,NVIDIA L40S,44GB,rocky8,,node2643-2644
+pi_abodner,1,64,1006GB,4,NVIDIA H100 80GB HBM3,79GB,rocky8,,node2905
+pi_ashia07,2,64,1006GB,4,NVIDIA L40S,44GB,rocky8,,node1632-1633
+pi_ccoley,1,64,1006GB,4,NVIDIA H100 80GB HBM3,79GB,rocky8,,node2436
+pi_cdrennan_gpu,2,48,376GB,3,NVIDIA L40S,44GB,rocky8,,node1804-1805
+pi_edboyden,2,96,1510GB,1,NVIDIA L4,22GB,rocky8,,node2809-2810
+pi_faez,1,64,2014GB,4,NVIDIA H100 80GB HBM3,79GB,rocky8,,node2435
+pi_faez,2,224,2014GB,8,NVIDIA H100 80GB HBM3,79GB,rocky8,,node2900-2901
+pi_gaias,1,96,1006GB,4,NVIDIA L40S,44GB,rocky8,,node2902
+pi_keating,2,48,376GB,2,NVIDIA H100 NVL,93GB,rocky8,,node1708-1709
+pi_keating,1,64,1006GB,4,NVIDIA A100-SXM4-80GB,80GB,rocky8,,node1927
+pi_linaresr,1,120,2014GB,8,NVIDIA H100 80GB HBM3,79GB,rocky8,,node2501
+pi_mghassem,1,64,1006GB,4,NVIDIA L40S,44GB,rocky8,,node2903
+pi_ppliang,1,120,2014GB,8,NVIDIA H200,140GB,rocky8,,node2500
+pi_raffaele,1,64,1006GB,4,NVIDIA H100 80GB HBM3,79GB,rocky8,,node2904
+pi_srmadden,2,64,376GB,2,NVIDIA L40S,44GB,rocky8,,node1704-1705
+sched_17806,11,16,62GB,1,Tesla K20m,4GB,centos7,,node073;node149;node154;node156;node158-160;node169-170;node172;node177
+sched_any,2,16,62GB,1,Tesla K20m,4GB,centos7,,node087;node170
+sched_bu_rebbi,11,16,62GB,1,Tesla K20m,4GB,centos7,,node073;node149;node154;node156;node158-160;node169-170;node172;node177
+sched_bu_rebbi-gputest,1,16,62GB,1,Tesla K20m,4GB,centos7,,node073
+sched_engaging_default,11,16,62GB,1,Tesla K20m,4GB,centos7,,node073;node149;node154;node156;node158-160;node169-170;node172;node177
+sched_mit_binz_gpu,1,20,125GB,4,NVIDIA GeForce RTX 2080 Ti,11GB,centos7,,node1195
+sched_mit_buehler_gpu,1,48,753GB,4,Tesla V100S-PCIE-32GB,32GB,centos7,,node1230
+sched_mit_buehler_gpu,2,48,753GB,10,Tesla V100S-PCIE-32GB,32GB,centos7,,node1228-1229
+sched_mit_ccoley,2,52,501GB,8,NVIDIA GeForce RTX 2080 Ti,11GB,centos7,,node1236-1237
+sched_mit_darwin2,8,28,125GB,2,Tesla P100-PCIE-12GB,12GB,centos7,,node737-741;node753-754;node756
+sched_mit_fraenkel_r8,1,64,1006GB,4,NVIDIA A40,44GB,rocky8,,node2403
+sched_mit_hill,11,16,62GB,1,Tesla K20m,4GB,centos7,,node073;node149;node154;node156;node158-160;node169-170;node172;node177
+sched_mit_hill-gputest,1,16,62GB,1,Tesla K20m,4GB,centos7,,node073
+sched_mit_hill_cpsfr,4,40,502GB,4,NVIDIA A100 80GB PCIe,80GB,rocky8,,node2414-2417
+sched_mit_jhewitt_r8,1,40,502GB,2,NVIDIA A100 80GB PCIe,80GB,rocky8,,node2418
+sched_mit_kburdge_r8,4,256,502GB,4,NVIDIA A100-SXM4-80GB,80GB,rocky8,,node2002-2005
+sched_mit_keating,1,64,1006GB,4,NVIDIA A100-SXM4-80GB,80GB,rocky8,,node1927
+sched_mit_mki_preempt_r8,1,40,502GB,2,NVIDIA A100 80GB PCIe,80GB,rocky8,,node2418
+sched_mit_mki_preempt_r8,4,256,502GB,4,NVIDIA A100-SXM4-80GB,80GB,rocky8,,node2002-2005
+sched_mit_mki_preempt_r8,2,128,502GB,4,NVIDIA A100-SXM4-80GB,80GB,rocky8,,node2000-2001
+sched_mit_mki_r8,2,128,502GB,4,NVIDIA A100-SXM4-80GB,80GB,rocky8,,node2000-2001
+sched_mit_psfc_gpu_r8,14,128,502GB,4,NVIDIA A100-SXM4-80GB,80GB,rocky8,,node1917-1918;node2100-2104;node2119;node2300-2304;node2319
+sched_mit_rafagb,2,48,250GB,4,NVIDIA TITAN V,12GB,centos7,,node1034-1035
+sched_mit_rafagb,14,64,375GB,4,NVIDIA GeForce RTX 2080 Ti,11GB,centos7,,node1115-1118;node1121-1130
+sched_mit_rafagb_amd,3,64,502GB,8,NVIDIA GeForce RTX 2080 Ti,11GB,centos7,,node1204;node1207-1208
+sched_mit_redwine,11,16,62GB,1,Tesla K20m,4GB,centos7,,node073;node149;node154;node156;node158-160;node169-170;node172;node177
+sched_mit_rgmark,4,40,376GB,1,Tesla K40m,11GB,centos7,,node309-312
+sched_mit_rutledge_gpu,3,20,125GB,4,NVIDIA TITAN V,12GB,centos7,,node1104-1106
+sched_mit_sloan_gpu,1,28,250GB,4,Tesla K80,11GB,centos7,,node970
+sched_mit_sloan_gpu_r8,4,40,502GB,4,NVIDIA A100 80GB PCIe,80GB,rocky8,,node2414-2417
+sched_mit_thesmar,1,56,250GB,4,Tesla K80,11GB,centos7,,node442
+sched_mit_trout,2,28,92GB,4,Tesla P100-PCIE-12GB,12GB,centos7,,node1038-1039
+sched_mit_wfrank,1,40,186GB,4,Tesla V100S-PCIE-32GB,32GB,centos7,,node1231
+sched_mit_wfrank,1,24,250GB,4,Tesla K80,11GB,centos7,,node423
+sched_neu_cooperman,11,16,62GB,1,Tesla K20m,4GB,centos7,,node073;node149;node154;node156;node158-160;node169-170;node172;node177
+sched_opportunist,15,16,62GB,1,Tesla K20m,4GB,centos7,,node073;node085-088;node149;node154;node156;node158-160;node169-170;node172;node177
+Sched_Umass_Shenoy,11,16,62GB,1,Tesla K20m,4GB,centos7,,node073;node149;node154;node156;node158-160;node169-170;node172;node177
