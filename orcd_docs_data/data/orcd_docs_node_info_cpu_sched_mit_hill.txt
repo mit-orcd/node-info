@@ -1,5 +1,0 @@
-| NODE_COUNT | OS      | CORES_PER_SOCKET | SOCKETS | MEMORY | MODEL_NAME                            | NODELIST                                                                                        |
-| ---------- | ------- | ---------------- | ------- | ------ | ------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| 34         | centos7 | 10               | 2       | 63000  | IntelR XeonR CPU E5-2660 v3 @ 2.60GHz | node331-337;node360-376;node379-381;node383-389                                                 |
-| 1          | centos7 | 14               | 2       | 64000  | IntelR XeonR CPU E5-2680 v4 @ 2.40GHz | node967                                                                                         |
-| 14         | centos7 | 8                | 2       | 64000  | IntelR XeonR CPU E5-2650 0 @ 2.00GHz  | node113-114;node116-117;node122;node125-126;node131;node133;node135;node137;node139;node143-144 |
