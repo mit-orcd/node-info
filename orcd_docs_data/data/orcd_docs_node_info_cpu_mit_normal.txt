@@ -1,5 +1,5 @@
-| NODE_COUNT | CORES | MEMORY | MODEL_NAME                       | MISC_FEATURES | NODELIST                    |
-| ---------- | ----- | ------ | -------------------------------- | ------------- | --------------------------- |
-| 6          | 2x96  | 1510GB | AMD EPYC 9654 96-Core Processor  |               | node1620-1625               |
-| 2          | 2x32  | 376GB  | AMD EPYC 9384X 32-Core Processor | high_l3       | node2704-2705               |
-| 19         | 2x48  | 376GB  | AMD EPYC 9474F 48-Core Processor |               | node1600-1616;node1618-1619 |
+| Nodes | Cores | Memory | CPU model                        | Misc. features | Node list                   |
+| ----- | ----- | ------ | -------------------------------- | -------------- | --------------------------- |
+| 6     | 2x96  | 1510GB | AMD EPYC 9654 96-Core Processor  |                | node1620-1625               |
+| 2     | 2x32  | 376GB  | AMD EPYC 9384X 32-Core Processor | high_l3        | node2704-2705               |
+| 19    | 2x48  | 376GB  | AMD EPYC 9474F 48-Core Processor |                | node1600-1616;node1618-1619 |

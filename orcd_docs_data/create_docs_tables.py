@@ -103,6 +103,20 @@ def main():
     gpu_node_df = gpu_node_df[["PARTITION", "NODE_COUNT",
                                "CORES", "MEMORY", "MODEL_NAME", "GPU_COUNT",
                                "GPU_TYPE", "GPU_MEMORY", "MISC_FEATURES", "NODELIST"]]
+    # Rename columns:
+    new_cols = {
+        "NODE_COUNT": "Nodes",
+        "CORES": "Cores",
+        "MEMORY": "Memory",
+        "MODEL_NAME": "CPU model",
+        "MISC_FEATURES": "Misc. features",
+        "NODELIST": "Node list",
+        "GPU_COUNT": "GPUs",
+        "GPU_TYPE": "GPU type",
+        "GPU_MEMORY": "GPU memory"
+    }
+    cpu_node_df.rename(columns=new_cols, inplace=True)
+    gpu_node_df.rename(columns=new_cols, inplace=True)
     
     # Export the dataframes to csv files (one per partition):
     for partition in public_partitions:

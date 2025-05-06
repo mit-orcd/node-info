@@ -1,5 +1,5 @@
-| NODE_COUNT | CORES | MEMORY | MODEL_NAME                   | GPU_COUNT | GPU_TYPE              | GPU_MEMORY | MISC_FEATURES | NODELIST      |
-| ---------- | ----- | ------ | ---------------------------- | --------- | --------------------- | ---------- | ------------- | ------------- |
-| 1          | 2x32  | 1006GB | INTELR XEONR PLATINUM 8562Y+ | 4         | NVIDIA L40S           | 44GB       |               | node2804      |
-| 1          | 2x32  | 1006GB | IntelR XeonR Platinum 8462Y+ | 4         | NVIDIA H100 80GB HBM3 | 79GB       |               | node2906      |
-| 2          | 2x60  | 2014GB | INTELR XEONR PLATINUM 8580   | 8         | NVIDIA H200           | 140GB      |               | node2433-2434 |
+| Nodes | Cores | Memory | CPU model                    | GPUs | GPU type              | GPU memory | Misc. features | Node list     |
+| ----- | ----- | ------ | ---------------------------- | ---- | --------------------- | ---------- | -------------- | ------------- |
+| 1     | 2x32  | 1006GB | INTELR XEONR PLATINUM 8562Y+ | 4    | NVIDIA L40S           | 44GB       |                | node2804      |
+| 1     | 2x32  | 1006GB | IntelR XeonR Platinum 8462Y+ | 4    | NVIDIA H100 80GB HBM3 | 79GB       |                | node2906      |
+| 2     | 2x60  | 2014GB | INTELR XEONR PLATINUM 8580   | 8    | NVIDIA H200           | 140GB      |                | node2433-2434 |
