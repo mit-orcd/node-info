@@ -71,6 +71,7 @@ def clean_and_split(df):
     """
     # Apply filters:
     df = df[df["PARTITION"] != "sched_system_all"]
+    df = df[df["PARTITION"] != "ou_orcd_everything"]
     df = df[df["STATE"] != "drained*"]
     df = df[df["STATE"] != "down*"]
     # Convert memory to GB:                                                                                                                                                                                                                                                                                                                      
