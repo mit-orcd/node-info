@@ -9,9 +9,9 @@ mkdir -p tmp
 mkdir -p data
 
 # Add PDSH to path:
-export PATH="$HOME/software/lib/pdsh/bin:$PATH"
+export PATH="$HOME/software/pdsh/bin:$PATH"
 export PDSH_RCMD_TYPE="ssh"
-export PDSH_MODULE_DIR="$HOME/software/lib/pdsh/lib/pdsh"
+export PDSH_MODULE_DIR="$HOME/software/pdsh/lib/pdsh"
 
 # Put all node names into a file:
 NODE_INFO_PATH="$HOME/projects/node-info/confluence_data/data/all_nodes.csv"
