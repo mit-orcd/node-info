@@ -14,9 +14,9 @@ export PDSH_RCMD_TYPE="ssh"
 export PDSH_MODULE_DIR="$HOME/software/pdsh/lib/pdsh"
 
 # All nodes (excluding nodes with "drained*" or "down*" state):
-sinfo -o %P,%N,%c,%m,%G,%T,%f > data/all_nodes.csv
+sinfo --format="%P|%N|%c|%m|%G|%T|%f" > data/all_nodes.csv
 # List of nodes with GPUs:
-cat data/all_nodes.csv | grep gpu | awk -F , '{print $2}' | sort | uniq > tmp/hostname.gpu
+cat data/all_nodes.csv | grep gpu | awk -F "|" '{print $2}' | sort | uniq > tmp/hostname.gpu
 # GPU specs for GPU nodes (may have to ^C this operation but it will still get data):
 pdsh -u 30 -w ^tmp/hostname.gpu nvidia-smi --query-gpu=name,memory.total --format=csv,noheader > tmp/gpu_info.txt
 # Convert gpu_info.txt to gpu_info.csv:

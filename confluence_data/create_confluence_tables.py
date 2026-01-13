@@ -15,6 +15,7 @@ import csv
 import os
 import sys
 
+
 WORKDIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.abspath(os.path.join(WORKDIR, '..')))
 import utils
@@ -154,7 +155,7 @@ def main():
     nodes_filename = "data/all_nodes.csv"
     nodes_path = os.path.join(WORKDIR, nodes_filename)
     with open(nodes_path, "r") as f:
-        reader = csv.reader(f)
+        reader = csv.reader(f, delimiter="|")
         headers = next(reader)
         headers.append("OS")
         headers.append("MISC_FEATURES")
@@ -165,14 +166,18 @@ def main():
             for val in row:
                 if "node[" in val:
                     good_row = False
+                    break
+            
             # Fix format of bad rows (skipping bad rows for now):
             if not good_row:
                 # new_row = process_bad_row(row)
                 continue
-            else:
-                new_row = row
+            
+            # Split AVAIL_FEATURES column into AVAIL_FEATURES,OS,MISC_FEATURES:
+            new_row = row[:-1] + row[-1].split(",")
+            
             # Ensure row is correct length:
-            new_row += ["(null)" for _ in range(8 - len(new_row))]
+            new_row += ["(null)" for _ in range(9 - len(new_row))]
             cleaned_rows.append(new_row)
 
         nodes_df = pd.DataFrame(cleaned_rows, columns=headers)
