@@ -15,7 +15,7 @@ export PDSH_MODULE_DIR="$HOME/software/pdsh/lib/pdsh"
 
 # Put all node names into a file:
 NODE_INFO_PATH="$HOME/projects/node-info/confluence_data/data/all_nodes.csv"
-cat $NODE_INFO_PATH | awk -F , '{print $2}' | grep -v "NODELIST" | sort | uniq > tmp/hostname.all
+cat $NODE_INFO_PATH | awk -F "|" '{print $2}' | grep -v "NODELIST" | sort | uniq > tmp/hostname.all
 # Get CPU specs for all nodes (used in ORCD docs table, not Confluence):
 pdsh -u 30 -w ^tmp/hostname.all lscpu | grep -E 'Model name|Core\(s\) per socket|Socket\(s\)' > tmp/cpu_info.txt
 # Convert cpu_info.txt to cpu_info.csv:
