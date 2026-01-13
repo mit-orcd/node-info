@@ -1,5 +1,9 @@
 Nodes,Cores,Memory,CPU model,Misc. features,Node list
-2,2x48,1510GB,AMD EPYC 9474F 48-Core Processor,,node3612-3613
-6,2x96,1510GB,AMD EPYC 9654 96-Core Processor,,node1620-1625
-48,2x48,376GB,AMD EPYC 9474F 48-Core Processor,,node1600-1619;node1626-1631;node2503-2513;node2523-2525;node3602-3607;node3610-3611
-2,2x48,754GB,AMD EPYC 9474F 48-Core Processor,,node3608-3609
+2,2x48,1510GB,AMD EPYC 9474F 48-Core Processor,(null),node3612-3613
+4,2x96,1510GB,AMD EPYC 9654 96-Core Processor,(null),node1620;node1623-1625
+2,2x96,1510GB,AMD EPYC 9654 96-Core Processor,,node1621-1622
+19,2x48,375GB,AMD EPYC 9474F 48-Core Processor,(null),node1600-1601;node1603-1619
+1,,375GB,,(null),node1602
+27,2x48,376GB,AMD EPYC 9474F 48-Core Processor,(null),node1626-1631;node2503-2513;node2523-2524;node3602-3607;node3610-3611
+4,2x48,377GB,AMD EPYC 9474F 48-Core Processor,(null),node2525;node3621-3623
+2,2x48,754GB,AMD EPYC 9474F 48-Core Processor,(null),node3608-3609
